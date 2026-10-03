@@ -1,0 +1,21 @@
+===== GLM-5.3-EXL3 TP4 MTP k=3 — full sweep 2026-10-03 14:11 =====
+-- prose decode (256 tok) --
+  prose      C1   agg=  15.0 tok/s   per-req= 15.0   (out=256, wall=17.0s)
+  prose      C2   agg=  29.1 tok/s   per-req= 15.2   (out=512, wall=17.6s)
+  prose      C4   agg=  36.7 tok/s   per-req=  9.4   (out=1024, wall=27.9s)
+  prose      C8   agg=  55.9 tok/s   per-req=  7.3   (out=2048, wall=36.6s)
+-- code decode (256 tok) --
+  code       C1   agg=  25.5 tok/s   per-req= 25.5   (out=256, wall=10.0s)
+  code       C2   agg=  35.3 tok/s   per-req= 17.9   (out=512, wall=14.5s)
+  code       C4   agg=  52.8 tok/s   per-req= 13.8   (out=1024, wall=19.4s)
+  code       C8   agg=  70.7 tok/s   per-req=  9.5   (out=2048, wall=29.0s)
+-- structured decode (256 tok) --
+  structured C1   agg=  20.3 tok/s   per-req= 20.3   (out=249, wall=12.3s)
+  structured C2   agg=  29.4 tok/s   per-req= 17.4   (out=512, wall=17.4s)
+  structured C4   agg=  37.9 tok/s   per-req= 10.4   (out=1023, wall=27.0s)
+  structured C8   agg=  54.5 tok/s   per-req=  7.9   (out=2047, wall=37.6s)
+-- prefill (max_tokens=1, unique prefix) --
+  prefill   4000 tok  TTFT=  7.3s      549 tok/s
+  prefill   8000 tok  TTFT= 17.2s      466 tok/s
+  prefill  32000 tok  TTFT= 58.0s      552 tok/s
+===== DONE 14:17:41 =====
