@@ -1,0 +1,2 @@
+FROM glm53-exl3-tp4:dcp-mul1-v145
+RUN f=/usr/local/lib/python3.12/dist-packages/vllm/model_executor/layers/sparse_attn_indexer.py && sed -i "s/use_persistent_topk = current_platform.is_cuda() and topk_tokens in (/use_persistent_topk = False and current_platform.is_cuda() and topk_tokens in (  # keys: GB10 48-SM oversubscribe/" $f && grep -c "keys: GB10 48-SM" $f && rm -rf /usr/local/lib/python3.12/dist-packages/vllm/model_executor/layers/__pycache__/sparse_attn_indexer*

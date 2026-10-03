@@ -1,0 +1,6 @@
+FROM glm53-exl3-tp4:dcp-mul1
+ARG DP=/usr/local/lib/python3.12/dist-packages
+RUN rm -rf $DP/exllamav3 $DP/exllamav3-0.0.43.dist-info $DP/exllamav3_ext*.so
+COPY --from=glm53-exl3-quant:1.4.5 $DP/exllamav3 $DP/exllamav3
+COPY --from=glm53-exl3-quant:1.4.5 $DP/exllamav3-1.4.5.dist-info $DP/exllamav3-1.4.5.dist-info
+COPY --from=glm53-exl3-quant:1.4.5 $DP/exllamav3_ext.cpython-312-aarch64-linux-gnu.so $DP/exllamav3_ext.cpython-312-aarch64-linux-gnu.so

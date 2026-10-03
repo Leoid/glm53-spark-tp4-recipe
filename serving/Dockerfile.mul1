@@ -1,0 +1,2 @@
+FROM glm53-exl3-tp4:dcp
+COPY exl3.py /usr/local/lib/python3.12/dist-packages/vllm/model_executor/layers/quantization/exl3.py

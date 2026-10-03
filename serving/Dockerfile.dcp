@@ -1,0 +1,21 @@
+# keys GLM-5.3 FULL EXL3 (3-bit mcg routed experts) serving image = Mia base + vertical integration:
+#   * keys-DCP port of the SM120 sparse-MLA backend (KV sharded across TP ranks -> 1M ctx on 4 GB10)
+#   * MLA layer DCP combine fix for sparse all-MQA backends (no MHA prefill path)
+#   * ABLIT load-time o_proj transplant hook for the DeepseekV2 model classes (derisk donors from
+#     make_derisk_donor.py mounted at /opt/glm53/ablit/transplant; ABLIT=1 to enable)
+# Build on any GB10 (context = this directory):  docker build -f Dockerfile.dcp -t glm53-exl3-tp4:dcp .
+ARG BASE=ghcr.io/miaai-lab/glm-5.3-flash-2x-dgx-sparks:exl3
+FROM ${BASE}
+ARG VLLM=/usr/local/lib/python3.12/dist-packages/vllm
+COPY sm120_dcp.py ${VLLM}/v1/attention/backends/mla/flashinfer_mla_sparse_sm120.py
+COPY mla_attn_dcp.py ${VLLM}/model_executor/layers/attention/mla_attention.py
+COPY patch_ablit_dsv2.py /opt/glm53/patch_ablit_dsv2.py
+COPY ablit_runtime.py /opt/glm53/ablit_runtime.py
+RUN python3 /opt/glm53/patch_ablit_dsv2.py /opt/glm53/ablit_runtime.py && python3 - <<'EOF'
+from vllm.v1.attention.backends.mla.flashinfer_mla_sparse_sm120 import FlashInferMLASparseSM120Impl as I
+assert I.can_return_lse_for_decode is True
+import vllm.model_executor.layers.attention.mla_attention as m
+assert "keys-DCP" in open(m.__file__).read()
+print("keys image OK: DCP backend + layer fix + ablit hook; lse_base_on_e =", I.lse_base_on_e)
+EOF
+LABEL keys.glm53.full.exl3="DCP sm120 + mla combine fix + ablit dsv2 hook, 2026-09-01"

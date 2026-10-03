@@ -1,0 +1,13 @@
+# large artifacts — keep off git, store alongside (see ARCHIVE.md)
+*.tar
+*.tar.gz
+*.safetensors
+*.bin
+*.gguf
+# noise
+__pycache__/
+*.pyc
+*.log
+logs/
+.cache/
+.DS_Store
